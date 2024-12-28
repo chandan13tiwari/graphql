@@ -1,0 +1,40 @@
+type Student {
+    id: ID,
+    name: String
+    subjects: [Subject]
+}
+
+type Subject {
+    id: ID,
+    studentId: Int
+    subjectName: String
+    marks: String
+    teacherName: String
+    # student: Student
+}
+
+type Query {
+    getAllStudents: [Student]
+    getStudentById(id: ID): Student
+    getSubjectsByStudentId(studentId: Int): [Subject]
+}
+
+# creating custom input type
+input SubjectInput {
+    id: ID,
+    studentId: Int
+    subjectName: String
+    marks: String
+    teacherName: String
+}
+
+input StudentInput {
+    id: ID
+    name: String
+    subjects: [SubjectInput]
+}
+
+
+type Mutation {
+    updateStudent(id: ID, student: StudentInput): Student
+}
