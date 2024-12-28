@@ -25,7 +25,7 @@ public class StudentController {
 
     // Get student by id
     @GetMapping("/{id}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long id) {
+    public ResponseEntity<Student> getStudentById(@PathVariable int id) {
         Optional<Student> student = studentService.getStudentById(id);
         return student.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
@@ -38,32 +38,32 @@ public class StudentController {
 
     // Update student by id
     @PutMapping("/{id}")
-    public ResponseEntity<Student> updateStudent(@PathVariable Long id, @RequestBody Student student) {
+    public ResponseEntity<Student> updateStudent(@PathVariable int id, @RequestBody Student student) {
         Student updatedStudent = studentService.updateStudent(id, student);
         return updatedStudent != null ? ResponseEntity.ok(updatedStudent) : ResponseEntity.notFound().build();
     }
 
     // Delete student by id
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteStudent(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteStudent(@PathVariable int  id) {
         return studentService.deleteStudent(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 
     // Add a subject to a student
     @PostMapping("/{studentId}/subjects")
-    public Subject addSubjectToStudent(@PathVariable Long studentId, @RequestBody Subject subject) {
+    public Subject addSubjectToStudent(@PathVariable int studentId, @RequestBody Subject subject) {
         return studentService.addSubjectToStudent(studentId, subject);
     }
 
     // Get subjects for a student
     @GetMapping("/{studentId}/subjects")
-    public List<Subject> getSubjectsByStudentId(@PathVariable Long studentId) {
+    public List<Subject> getSubjectsByStudentId(@PathVariable int studentId) {
         return studentService.getSubjectsByStudentId(studentId);
     }
 
     // Delete subject by id
     @DeleteMapping("/subjects/{id}")
-    public ResponseEntity<Void> deleteSubject(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteSubject(@PathVariable int id) {
         return studentService.deleteSubject(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
     }
 }

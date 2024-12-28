@@ -34,21 +34,28 @@ public class StudentService {
     }
 
     // Get student by id
-    public Optional<Student> getStudentById(Long id) {
+    public Optional<Student> getStudentById(int id) {
         return studentRepository.findById(id);
     }
 
     // Update student details
-    public Student updateStudent(Long id, Student student) {
+    public Student updateStudent(int id, Student student) {
         if (studentRepository.existsById(id)) {
+            System.out.println(student);
             student.setId(id);
+            student.getSubjects().forEach(subject -> {
+                if(subjectRepository.existsById(subject.getId())) {
+                    subjectRepository.save(subject);
+                }
+            });
+
             return studentRepository.save(student);
         }
         return null;
     }
 
     // Delete student by id
-    public boolean deleteStudent(Long id) {
+    public boolean deleteStudent(int id) {
         if (studentRepository.existsById(id)) {
             studentRepository.deleteById(id);
             return true;
@@ -57,23 +64,24 @@ public class StudentService {
     }
 
     // Add a subject to a student
-    public Subject addSubjectToStudent(Long studentId, Subject subject) {
+    public Subject addSubjectToStudent(int studentId, Subject subject) {
         Student student = getStudentById(studentId).orElse(null);
         if(student == null) {
             throw new ResourceNotFoundException("Student not found for id: " + studentId);
         }
         subject.setStudentId(studentId);
         student.getSubjects().add(subject);
+        studentRepository.save(student);
         return subjectRepository.save(subject);
     }
 
     // Get subjects by studentId
-    public List<Subject> getSubjectsByStudentId(Long studentId) {
+    public List<Subject> getSubjectsByStudentId(int studentId) {
         return subjectRepository.findByStudentId(studentId);
     }
 
     // Delete subject by id
-    public boolean deleteSubject(Long id) {
+    public boolean deleteSubject(int id) {
         if (subjectRepository.existsById(id)) {
             subjectRepository.deleteById(id);
             return true;

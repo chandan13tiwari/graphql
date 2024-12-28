@@ -16,10 +16,10 @@ public class Subject {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long id;
+    private int id;
 
     @Column(name = "student_id")
-    private Long studentId;
+    private int studentId;
 
     @Column(name = "subject_name")
     private String subjectName;
